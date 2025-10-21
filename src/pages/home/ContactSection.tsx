@@ -96,7 +96,7 @@ const ContactSection = () => {
 
     try {
       // שליחה ל-Formspree
-      const response = await fetch('https://formspree.io/f/xqadvvqw', {
+      const response = await fetch('https://formspree.io/f/mvgwnwnv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -46,6 +46,64 @@ const AccessibilityStatement = () => {
 
                 <section>
                   <h2 className="text-2xl font-bold text-neutral-800 mb-4">
+                    כלי נגישות מתקדמים
+                  </h2>
+                  <p className="mb-4">
+                    האתר כולל ווידג'ט נגישות מקצועי המאפשר התאמה אישית מלאה של חוויית הגלישה:
+                  </p>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-800 mb-2">התאמות טקסט וגופנים</h3>
+                      <ul className="list-disc list-inside space-y-1 mr-4">
+                        <li>הגדלה והקטנה של גודל הטקסט עד 150%</li>
+                        <li>שינוי ריווח בין שורות</li>
+                        <li>שינוי ריווח בין אותיות</li>
+                        <li>מעבר לגופן קריא (Arial)</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-800 mb-2">התאמות תצוגה וצבעים</h3>
+                      <ul className="list-disc list-inside space-y-1 mr-4">
+                        <li>מצב ניגודיות בהירה</li>
+                        <li>מצב ניגודיות כהה</li>
+                        <li>היפוך צבעים</li>
+                        <li>מצב מונוכרום (שחור-לבן)</li>
+                        <li>התאמת רוויה (גבוהה/נמוכה)</li>
+                        <li>בחירת צבע מותאם אישית</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-800 mb-2">התאמות תוכן וקריאה</h3>
+                      <ul className="list-disc list-inside space-y-1 mr-4">
+                        <li>הדגשת קישורים</li>
+                        <li>הדגשת כותרות</li>
+                        <li>סרגל קריאה - עוקב אחר מיקום העכבר</li>
+                        <li>זכוכית מגדלת מתקדמת</li>
+                        <li>הגדלת סמן העכבר</li>
+                        <li>עצירת אנימציות</li>
+                        <li>הסתרת תמונות</li>
+                        <li>קריאת טקסט בקול</li>
+                        <li>מבנה העמוד - הדגשת מבנה ההיררכיה</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-800 mb-2">נגישות מתקדמת</h3>
+                      <ul className="list-disc list-inside space-y-1 mr-4">
+                        <li>תמיכה מלאה בניווט מקלדת</li>
+                        <li>תמיכה בטכנולוגיות מסייעות</li>
+                        <li>שמירת העדפות נגישות למפגשים עתידיים</li>
+                        <li>אפשרות איפוס מהיר של כל ההגדרות</li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                <section>
+                  <h2 className="text-2xl font-bold text-neutral-800 mb-4">
                     דרכי יצירת קשר
                   </h2>
                   <p>

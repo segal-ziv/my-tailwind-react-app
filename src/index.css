@@ -1,51 +1,345 @@
 @import "./styles/globals.css";
 
-/* Accessibility Styles */
-:root {
-  --accessibility-font-size: 1rem;
+/* ==============================================
+   ACCESSIBILITY WIDGET STYLES
+   All classes prefixed with a11y- for clarity
+   ============================================== */
+
+/* ==================== */
+/* FONT SIZE CONTROLS   */
+/* ==================== */
+
+/* Main font size control applied to root */
+html {
+  /* Default is 100%, adjusted by widget */
 }
 
-/* Font size accessibility */
-* {
-  font-size: var(--accessibility-font-size);
+/* ==================== */
+/* INTELLIGENCE FEATURES */
+/* ==================== */
+
+/* Grid Navigation */
+.a11y-grid-navigation {
+  /* Add grid overlay for navigation */
 }
 
-/* High contrast mode */
-.high-contrast {
-  filter: contrast(150%) brightness(120%);
+.a11y-grid-navigation::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 9997;
 }
 
-.high-contrast * {
+/* Screen Reader Mode */
+.a11y-screen-reader-mode * {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.a11y-screen-reader-mode *:focus {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 3px !important;
+}
+
+/* Text-to-Speech Mode - Visual feedback for clickable elements */
+[data-tts-enabled="true"] {
+  transition: background-color 0.2s ease;
+}
+
+[data-tts-enabled="true"]:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  outline: 1px solid rgba(59, 130, 246, 0.3);
+  outline-offset: 2px;
+}
+
+/* ==================== */
+/* VISIBILITY ADJUSTMENTS */
+/* ==================== */
+
+/* Bright Contrast */
+.a11y-bright-contrast {
+  filter: contrast(150%) brightness(110%);
+}
+
+.a11y-bright-contrast * {
   background-color: white !important;
-  color: black !important;
-  border-color: black !important;
+  color: #000 !important;
+  border-color: #000 !important;
 }
 
-.high-contrast a {
+.a11y-bright-contrast a {
   text-decoration: underline !important;
   font-weight: bold !important;
 }
 
-/* Highlight links */
-.highlight-links a {
-  background-color: yellow !important;
-  color: black !important;
-  padding: 2px 4px !important;
-  border-radius: 3px !important;
-  font-weight: bold !important;
+/* Dark Contrast */
+.a11y-dark-contrast {
+  background-color: #000 !important;
+  color: #fff !important;
 }
 
-/* Reduce motion */
-.reduce-motion *,
-.reduce-motion *::before,
-.reduce-motion *::after {
+.a11y-dark-contrast * {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.a11y-dark-contrast a {
+  color: #60a5fa !important;
+  text-decoration: underline !important;
+}
+
+/* Inverted Colors */
+.a11y-inverted-colors {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Monochrome */
+.a11y-monochrome {
+  filter: grayscale(100%);
+}
+
+/* High Saturation */
+.a11y-high-saturation {
+  filter: saturate(200%);
+}
+
+/* Low Saturation */
+.a11y-low-saturation {
+  filter: saturate(50%);
+}
+
+/* ==================== */
+/* COLOR CUSTOMIZATION  */
+/* ==================== */
+
+.a11y-custom-color-backgrounds * {
+  background-color: var(--a11y-custom-color) !important;
+}
+
+.a11y-custom-color-headings h1,
+.a11y-custom-color-headings h2,
+.a11y-custom-color-headings h3,
+.a11y-custom-color-headings h4,
+.a11y-custom-color-headings h5,
+.a11y-custom-color-headings h6 {
+  color: var(--a11y-custom-color) !important;
+}
+
+.a11y-custom-color-contents p,
+.a11y-custom-color-contents div,
+.a11y-custom-color-contents span,
+.a11y-custom-color-contents li {
+  color: var(--a11y-custom-color) !important;
+}
+
+/* ==================== */
+/* FONT ADJUSTMENTS     */
+/* ==================== */
+
+/* Applied via CSS variables set in JS */
+html[style*="--a11y-font-size"] * {
+  font-size: var(--a11y-font-size) !important;
+}
+
+html[style*="--a11y-word-spacing"] * {
+  word-spacing: var(--a11y-word-spacing) !important;
+}
+
+html[style*="--a11y-letter-spacing"] * {
+  letter-spacing: var(--a11y-letter-spacing) !important;
+}
+
+/* ==================== */
+/* CURSOR CUSTOMIZATION */
+/* ==================== */
+
+.a11y-cursor-white * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="white" stroke="black" stroke-width="2" d="M8 4 L8 24 L12 20 L16 28 L20 26 L16 18 L22 18 Z"/></svg>') 8 4, auto !important;
+}
+
+.a11y-cursor-black * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="black" stroke="white" stroke-width="2" d="M8 4 L8 24 L12 20 L16 28 L20 26 L16 18 L22 18 Z"/></svg>') 8 4, auto !important;
+}
+
+.a11y-cursor-large * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="black" stroke="white" stroke-width="3" d="M12 6 L12 36 L18 30 L24 42 L30 39 L24 27 L33 27 Z"/></svg>') 12 6, auto !important;
+}
+
+/* ==================== */
+/* CONTENT FEATURES     */
+/* ==================== */
+
+/* Enlarge Display */
+.a11y-enlarge-display {
+  zoom: 1.25;
+}
+
+/* Block Flashing/Animations */
+.a11y-block-flashing *,
+.a11y-block-flashing *::before,
+.a11y-block-flashing *::after {
+  animation: none !important;
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
+  transition: none !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
 
-/* Skip links */
+/* Highlight Links */
+.a11y-highlight-links a {
+  background-color: yellow !important;
+  color: #000 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  border: 2px solid #000 !important;
+  box-shadow: 0 0 0 2px yellow !important;
+}
+
+/* Image Descriptions */
+.a11y-image-descriptions img {
+  position: relative;
+  border: 2px solid #3b82f6;
+  padding: 4px;
+}
+
+.a11y-image-descriptions img::after {
+  content: attr(alt);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Readable Font */
+.a11y-readable-font,
+.a11y-readable-font * {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Enlarge Content */
+.a11y-enlarge-content p,
+.a11y-enlarge-content li,
+.a11y-enlarge-content div,
+.a11y-enlarge-content span {
+  font-size: 120% !important;
+  line-height: 1.8 !important;
+}
+
+/* Reading View */
+.a11y-reading-view nav,
+.a11y-reading-view aside,
+.a11y-reading-view .sidebar,
+.a11y-reading-view header,
+.a11y-reading-view footer {
+  display: none !important;
+}
+
+.a11y-reading-view main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+}
+
+/* Highlight Headings */
+.a11y-highlight-headings h1,
+.a11y-highlight-headings h2,
+.a11y-highlight-headings h3,
+.a11y-highlight-headings h4,
+.a11y-highlight-headings h5,
+.a11y-highlight-headings h6 {
+  background-color: #ffeb3b !important;
+  color: #000 !important;
+  padding: 12px 16px !important;
+  border-left: 6px solid #f57c00 !important;
+  margin: 16px 0 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Focus Reading */
+.a11y-focus-reading p,
+.a11y-focus-reading li {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.a11y-focus-reading p:hover,
+.a11y-focus-reading p:focus-within,
+.a11y-focus-reading li:hover,
+.a11y-focus-reading li:focus-within {
+  opacity: 1;
+  background-color: rgba(255, 255, 0, 0.2);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+/* Page Structure */
+.a11y-page-structure h1::before {
+  content: '1. ';
+  color: #3b82f6;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.a11y-page-structure h2::before {
+  content: '1.1. ';
+  color: #3b82f6;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.a11y-page-structure h3::before {
+  content: '1.1.1. ';
+  color: #3b82f6;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.a11y-page-structure h4::before {
+  content: '• ';
+  color: #3b82f6;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/* Reading Guide */
+.a11y-reading-guide {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(255, 255, 0, 0.25);
+  border: 3px solid #ffeb3b;
+  border-left: none;
+  border-right: none;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translateY(-50%);
+  box-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+}
+
+/* ==================== */
+/* SKIP LINKS           */
+/* ==================== */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -58,11 +352,12 @@
   border: 0;
 }
 
-.sr-only:focus {
+.sr-only:focus,
+.sr-only:focus-visible {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 1000;
+  z-index: 10000;
   width: auto;
   height: auto;
   padding: 0.5rem 1rem;
@@ -77,34 +372,92 @@
   font-weight: 500;
 }
 
-/* Focus styles */
-*:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+/* ==================== */
+/* FOCUS STYLES         */
+/* ==================== */
+
+*:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 3px;
 }
 
-/* Accessibility button styles */
-.accessibility-button {
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 50;
-  background-color: #000;
-  color: white;
-  padding: 0.75rem;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+/* ==================== */
+/* RESPONSIVE           */
+/* ==================== */
+
+@media (max-width: 640px) {
+  .a11y-reading-guide {
+    height: 40px;
+  }
+
+  .a11y-enlarge-display {
+    zoom: 1.15;
+  }
+
+  .a11y-enlarge-content p,
+  .a11y-enlarge-content li,
+  .a11y-enlarge-content div {
+    font-size: 110% !important;
+  }
 }
 
-.accessibility-button:hover {
-  background-color: #374151;
-  transform: scale(1.05);
+/* ==================== */
+/* PRINT STYLES         */
+/* ==================== */
+
+@media print {
+  .a11y-bright-contrast,
+  .a11y-dark-contrast,
+  .a11y-inverted-colors,
+  .a11y-monochrome,
+  .a11y-high-saturation,
+  .a11y-low-saturation {
+    filter: none !important;
+  }
+
+  .a11y-highlight-links a {
+    border: 1px solid #000 !important;
+    background: transparent !important;
+    color: #000 !important;
+  }
+
+  .a11y-highlight-headings h1,
+  .a11y-highlight-headings h2,
+  .a11y-highlight-headings h3,
+  .a11y-highlight-headings h4,
+  .a11y-highlight-headings h5,
+  .a11y-highlight-headings h6 {
+    background: transparent !important;
+    border-left: 2px solid #000 !important;
+  }
+
+  .a11y-reading-guide {
+    display: none !important;
+  }
 }
 
-.accessibility-button:focus {
-  outline: 2px solid white;
-  outline-offset: 2px;
+/* ==================== */
+/* UTILITY CLASSES      */
+/* ==================== */
+
+/* Hide elements visually but keep for screen readers */
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Prevent layout shift from accessibility widget */
+body {
+  position: relative;
+}
+
+/* Ensure accessibility widget is always visible */
+[data-accessibility-button],
+[role="dialog"][aria-label="פאנל נגישות"] {
+  isolation: isolate;
 }

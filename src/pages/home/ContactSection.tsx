@@ -95,8 +95,8 @@ const ContactSection = () => {
     setStatusMessage('שולח את הבקשה...')
 
     try {
-      // שליחה ל-Formspree
-      const response = await fetch('https://formspree.io/f/mvgwnwnv', {
+      // שליחה לשרת באמצעות API
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,23 +106,25 @@ const ContactSection = () => {
           phone: values.phone,
           projectType: values.projectType,
           description: values.description,
-          _subject: 'בקשה חדשה מאתר T.S אינסטלציה',
-          _replyto: contactEmail,
         }),
       })
 
-      if (response.ok) {
+      const data = await response.json()
+
+      if (response.ok && data.success) {
         setStatus('success')
-        setStatusMessage('הבקשה התקבלה! נחזור אליכם בהקדם.')
+        setStatusMessage('הבקשה התקבלה בהצלחה! נחזור אליכם בהקדם האפשרי.')
         form.reset()
         setPrivacyConsent(false)
       } else {
-        throw new Error('Form submission failed')
+        // Display server error message if available
+        throw new Error(data.error || 'Form submission failed')
       }
     } catch (error) {
       console.error('Contact form submission error', error)
       setStatus('error')
-      setStatusMessage('אירעה תקלה בזמן השליחה. נסו שוב בעוד כמה רגעים.')
+      const errorMessage = error instanceof Error ? error.message : 'אירעה תקלה בזמן השליחה. נסו שוב בעוד כמה רגעים.'
+      setStatusMessage(errorMessage)
     }
   }
 

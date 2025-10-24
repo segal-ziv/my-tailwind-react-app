@@ -11,6 +11,7 @@ export { default as Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
 
 export { default as AccessibilityButton } from './AccessibilityButton';
+export { default as AccessibilityWidget } from './AccessibilityWidget';
 
 export { default as ServiceCard } from './ServiceCard';
 export { default as LoadingSpinner } from './LoadingSpinner';

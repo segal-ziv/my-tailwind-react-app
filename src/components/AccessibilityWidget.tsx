@@ -416,14 +416,29 @@ const AccessibilityWidget = () => {
         </svg>
       </button>
 
+      {/* Backdrop Overlay - Click to close */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-[99] md:bg-transparent"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Accessibility Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-20 left-4 md:bottom-24 md:left-6 z-[100] bg-white rounded-2xl md:rounded-3xl shadow-2xl w-[calc(100vw-2rem)] sm:w-[400px] md:w-[500px] max-h-[calc(100vh-120px)] md:max-h-[calc(100vh-150px)] overflow-hidden flex flex-col"
+          className="fixed bottom-0 left-0 right-0 md:bottom-24 md:left-6 md:right-auto z-[100] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl w-full sm:w-[400px] md:w-[500px] max-h-[85vh] md:max-h-[calc(100vh-150px)] overflow-hidden flex flex-col"
           dir="rtl"
           role="dialog"
           aria-label="פאנל נגישות"
+          onClick={(e) => e.stopPropagation()}
         >
+          {/* Mobile drag handle indicator */}
+          <div className="md:hidden pt-2 pb-1 flex justify-center">
+            <div className="w-12 h-1 bg-gray-300 rounded-full"></div>
+          </div>
+
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-700 to-blue-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-3">
@@ -1045,27 +1060,41 @@ const AccessibilityWidget = () => {
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 px-4 md:px-6 py-3 md:py-4 bg-gray-50">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
+          <div className="border-t border-gray-200 bg-gray-50">
+            {/* Mobile-only sticky close button */}
+            <div className="md:hidden px-4 py-3 border-b border-gray-200">
               <button
-                onClick={resetAll}
-                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
-              >
-                ביטול נגישות
-              </button>
-              <Link
-                to="/accessibility-statement"
                 onClick={() => setIsOpen(false)}
-                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 text-center transition-colors"
+                className="w-full bg-blue-700 hover:bg-blue-800 text-white py-3 px-4 rounded-xl text-base font-bold transition-colors flex items-center justify-center gap-2"
               >
-                הצהרת נגישות
-              </Link>
-              <button
-                onClick={() => alert('תודה על המשוב! ניצור איתך קשר בקרוב.')}
-                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
-              >
-                שלח משוב
+                <span>✓</span>
+                <span>סגור ושמור</span>
               </button>
+            </div>
+
+            {/* Desktop footer buttons */}
+            <div className="px-4 md:px-6 py-3 md:py-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
+                <button
+                  onClick={resetAll}
+                  className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
+                >
+                  ביטול נגישות
+                </button>
+                <Link
+                  to="/accessibility-statement"
+                  onClick={() => setIsOpen(false)}
+                  className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 text-center transition-colors"
+                >
+                  הצהרת נגישות
+                </Link>
+                <button
+                  onClick={() => alert('תודה על המשוב! ניצור איתך קשר בקרוב.')}
+                  className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
+                >
+                  שלח משוב
+                </button>
+              </div>
             </div>
           </div>
         </div>

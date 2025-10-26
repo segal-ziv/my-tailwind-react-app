@@ -399,6 +399,19 @@ html[style*="--a11y-letter-spacing"] * {
   .a11y-enlarge-content div {
     font-size: 110% !important;
   }
+
+  /* Ensure accessibility widget doesn't overflow on mobile */
+  [role="dialog"][aria-label="פאנל נגישות"] {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* Extra small screens (phones in portrait) */
+@media (max-width: 375px) {
+  [role="dialog"][aria-label="פאנל נגישות"] {
+    bottom: 4.5rem;
+    max-height: calc(100vh - 100px);
+  }
 }
 
 /* ==================== */

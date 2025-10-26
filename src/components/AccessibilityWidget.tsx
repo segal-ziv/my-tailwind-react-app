@@ -352,11 +352,11 @@ const AccessibilityWidget = () => {
       {/* Accessibility Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-6 z-[100] bg-blue-700 hover:bg-blue-800 text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300"
+        className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-[100] bg-blue-700 hover:bg-blue-800 text-white p-3 md:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300"
         aria-label="פתח תפריט נגישות"
         title="נגישות"
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="md:w-7 md:h-7">
           <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
         </svg>
       </button>
@@ -364,16 +364,16 @@ const AccessibilityWidget = () => {
       {/* Accessibility Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-24 left-6 z-[100] bg-white rounded-3xl shadow-2xl w-[500px] max-h-[calc(100vh-150px)] overflow-hidden flex flex-col"
+          className="fixed bottom-20 left-4 md:bottom-24 md:left-6 z-[100] bg-white rounded-2xl md:rounded-3xl shadow-2xl w-[calc(100vw-2rem)] sm:w-[400px] md:w-[500px] max-h-[calc(100vh-120px)] md:max-h-[calc(100vh-150px)] overflow-hidden flex flex-col"
           dir="rtl"
           role="dialog"
           aria-label="פאנל נגישות"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-700 to-blue-800 px-6 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="bg-white bg-opacity-20 p-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+          <div className="bg-gradient-to-r from-blue-700 to-blue-800 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="bg-white bg-opacity-20 p-1.5 md:p-2 rounded-lg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="md:w-6 md:h-6">
                   <rect x="2" y="3" width="20" height="14" rx="2"/>
                   <path d="M2 9h20"/>
                   <path d="M7 21h10"/>
@@ -382,7 +382,7 @@ const AccessibilityWidget = () => {
               </div>
               <button
                 onClick={() => updatePreference('language', preferences.language === 'he' ? 'en' : 'he')}
-                className="text-white font-bold text-lg hover:bg-white hover:bg-opacity-10 px-3 py-1 rounded transition-colors"
+                className="text-white font-bold text-base md:text-lg hover:bg-white hover:bg-opacity-10 px-2 md:px-3 py-1 rounded transition-colors"
               >
                 עברית
               </button>
@@ -433,24 +433,24 @@ const AccessibilityWidget = () => {
 
           {/* Info Tooltip */}
           {showInfo && (
-            <div className="bg-blue-50 border-b border-blue-200 px-6 py-3 text-sm text-blue-900">
+            <div className="bg-blue-50 border-b border-blue-200 px-4 md:px-6 py-2 md:py-3 text-xs md:text-sm text-blue-900">
               השתמש בכלי הנגישות כדי להתאים את האתר לצרכים שלך. כל ההגדרות נשמרות אוטומטית.
             </div>
           )}
 
           {/* Accessibility Statement Button */}
-          <div className="px-6 py-3 border-b border-gray-200">
+          <div className="px-4 md:px-6 py-2 md:py-3 border-b border-gray-200">
             <Link
               to="/accessibility-statement"
               onClick={() => setIsOpen(false)}
-              className="block w-full bg-blue-700 hover:bg-blue-800 text-white text-center py-3 rounded-xl font-medium transition-colors"
+              className="block w-full bg-blue-700 hover:bg-blue-800 text-white text-center py-2.5 md:py-3 rounded-lg md:rounded-xl text-sm md:text-base font-medium transition-colors"
             >
               נגישות
             </Link>
           </div>
 
           {/* Scrollable Content */}
-          <div className="overflow-y-auto flex-1 px-6 py-4 space-y-4">
+          <div className="overflow-y-auto flex-1 px-4 md:px-6 py-3 md:py-4 space-y-3 md:space-y-4">
             {/* Intelligence Assistance Section */}
             <CollapsibleSection
               title="סיוע בינה מלאכותית"
@@ -459,23 +459,23 @@ const AccessibilityWidget = () => {
             >
               <div className="space-y-4">
                 {/* Font Size Controls */}
-                <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl">
+                <div className="flex items-center justify-between bg-gray-50 p-3 md:p-4 rounded-lg md:rounded-xl">
                   <button
                     onClick={decreaseFontSize}
-                    className="w-12 h-12 bg-blue-700 hover:bg-blue-800 text-white rounded-lg flex items-center justify-center font-bold text-2xl transition-colors"
+                    className="w-10 h-10 md:w-12 md:h-12 bg-blue-700 hover:bg-blue-800 text-white rounded-lg flex items-center justify-center font-bold text-xl md:text-2xl transition-colors"
                     aria-label="הקטן טקסט"
                   >
                     −
                   </button>
 
                   <div className="text-center">
-                    <div className="font-medium text-gray-800">פרופיל נגישות</div>
-                    <div className="text-sm text-gray-600">רמה {preferences.fontSize}</div>
+                    <div className="font-medium text-sm md:text-base text-gray-800">פרופיל נגישות</div>
+                    <div className="text-xs md:text-sm text-gray-600">רמה {preferences.fontSize}</div>
                   </div>
 
                   <button
                     onClick={increaseFontSize}
-                    className="w-12 h-12 bg-blue-700 hover:bg-blue-800 text-white rounded-lg flex items-center justify-center font-bold text-2xl transition-colors"
+                    className="w-10 h-10 md:w-12 md:h-12 bg-blue-700 hover:bg-blue-800 text-white rounded-lg flex items-center justify-center font-bold text-xl md:text-2xl transition-colors"
                     aria-label="הגדל טקסט"
                   >
                     +
@@ -483,7 +483,7 @@ const AccessibilityWidget = () => {
                 </div>
 
                 {/* Intelligence Features Grid */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                   <FeatureCard
                     icon={<GridIcon />}
                     title="ניווט אוזרים"
@@ -543,7 +543,7 @@ const AccessibilityWidget = () => {
             >
               <div className="space-y-4">
                 {/* Contrast Modes Grid */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                   <FeatureCard
                     icon={<SunIcon />}
                     title="נגישודיות בהירה"
@@ -589,15 +589,15 @@ const AccessibilityWidget = () => {
                 </div>
 
                 {/* Color Customization */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <h4 className="font-medium mb-3 flex items-center gap-2 text-gray-800">
+                <div className="bg-gray-50 p-3 md:p-4 rounded-lg md:rounded-xl">
+                  <h4 className="font-medium text-sm md:text-base mb-2 md:mb-3 flex items-center gap-2 text-gray-800">
                     <DropIcon />
                     התאמת צבעים - שינוי צבעי האתר
                   </h4>
-                  <div className="flex gap-2 mb-3">
+                  <div className="flex gap-1.5 md:gap-2 mb-2 md:mb-3">
                     <button
                       onClick={() => updatePreference('colorTarget', 'backgrounds')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.colorTarget === 'backgrounds'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -607,7 +607,7 @@ const AccessibilityWidget = () => {
                     </button>
                     <button
                       onClick={() => updatePreference('colorTarget', 'headings')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.colorTarget === 'headings'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -617,7 +617,7 @@ const AccessibilityWidget = () => {
                     </button>
                     <button
                       onClick={() => updatePreference('colorTarget', 'contents')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.colorTarget === 'contents'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -664,15 +664,15 @@ const AccessibilityWidget = () => {
             >
               <div className="space-y-4">
                 {/* Font Adjustments */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <h4 className="font-medium mb-3 flex items-center gap-2 text-gray-800">
+                <div className="bg-gray-50 p-3 md:p-4 rounded-lg md:rounded-xl">
+                  <h4 className="font-medium text-sm md:text-base mb-2 md:mb-3 flex items-center gap-2 text-gray-800">
                     <BellIcon />
                     התאמות גופן - הגדלת וקטנת הגופן
                   </h4>
-                  <div className="flex gap-2 mb-3">
+                  <div className="flex gap-1.5 md:gap-2 mb-2 md:mb-3 flex-wrap">
                     <button
                       onClick={() => updatePreference('fontAdjustmentType', 'size')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.fontAdjustmentType === 'size'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -682,7 +682,7 @@ const AccessibilityWidget = () => {
                     </button>
                     <button
                       onClick={() => updatePreference('fontAdjustmentType', 'wordSpacing')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.fontAdjustmentType === 'wordSpacing'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -692,7 +692,7 @@ const AccessibilityWidget = () => {
                     </button>
                     <button
                       onClick={() => updatePreference('fontAdjustmentType', 'letterSpacing')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-2 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.fontAdjustmentType === 'letterSpacing'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -745,15 +745,15 @@ const AccessibilityWidget = () => {
                 </div>
 
                 {/* Cursor Controls */}
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <h4 className="font-medium mb-3 flex items-center gap-2 text-gray-800">
+                <div className="bg-gray-50 p-3 md:p-4 rounded-lg md:rounded-xl">
+                  <h4 className="font-medium text-sm md:text-base mb-2 md:mb-3 flex items-center gap-2 text-gray-800">
                     <CursorIcon />
                     סמן העכבר - הגדלת סמן העכבר ושינוי צבעו
                   </h4>
                   <div className="flex gap-2">
                     <button
                       onClick={() => updatePreference('cursorColor', 'white')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.cursorColor === 'white'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -763,7 +763,7 @@ const AccessibilityWidget = () => {
                     </button>
                     <button
                       onClick={() => updatePreference('cursorColor', 'black')}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-colors ${
                         preferences.cursorColor === 'black'
                           ? 'bg-blue-900 text-white'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -775,7 +775,7 @@ const AccessibilityWidget = () => {
                 </div>
 
                 {/* Content Features Grid */}
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                   <FeatureCard
                     icon={<SearchIcon />}
                     title="הגדלת תצוגה"
@@ -872,24 +872,24 @@ const AccessibilityWidget = () => {
           </div>
 
           {/* Footer */}
-          <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
-            <div className="grid grid-cols-3 gap-3">
+          <div className="border-t border-gray-200 px-4 md:px-6 py-3 md:py-4 bg-gray-50">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-3">
               <button
                 onClick={resetAll}
-                className="px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
               >
                 ביטול נגישות
               </button>
               <Link
                 to="/accessibility-statement"
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-100 text-center transition-colors"
+                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 text-center transition-colors"
               >
                 הצהרת נגישות
               </Link>
               <button
                 onClick={() => alert('תודה על המשוב! ניצור איתך קשר בקרוב.')}
-                className="px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+                className="px-3 md:px-4 py-2 bg-white border-2 border-gray-300 text-gray-700 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition-colors"
               >
                 שלח משוב
               </button>
@@ -910,24 +910,24 @@ interface CollapsibleSectionProps {
 }
 
 const CollapsibleSection = ({ title, isOpen, onToggle, children }: CollapsibleSectionProps) => (
-  <div className="border border-gray-200 rounded-xl overflow-hidden">
+  <div className="border border-gray-200 rounded-lg md:rounded-xl overflow-hidden">
     <button
       onClick={onToggle}
-      className="w-full px-4 py-3 bg-white hover:bg-gray-50 flex items-center justify-between font-medium text-blue-900 transition-colors"
+      className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-white hover:bg-gray-50 flex items-center justify-between font-medium text-sm md:text-base text-blue-900 transition-colors"
     >
       <span>{title}</span>
       <svg
-        width="20"
-        height="20"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        className={`md:w-5 md:h-5 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
       >
         <path d="M7 10l5 5 5-5z"/>
       </svg>
     </button>
     {isOpen && (
-      <div className="px-4 py-4 bg-white border-t border-gray-200">
+      <div className="px-3 md:px-4 py-3 md:py-4 bg-white border-t border-gray-200">
         {children}
       </div>
     )}
@@ -946,7 +946,7 @@ const FeatureCard = ({ icon, title, active, onClick, disabled = false }: Feature
   <button
     onClick={onClick}
     disabled={disabled}
-    className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 text-center min-h-[100px] transition-all ${
+    className={`p-3 md:p-4 rounded-lg md:rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 md:gap-2 text-center min-h-[80px] md:min-h-[100px] transition-all ${
       active
         ? 'bg-gray-700 text-white border-gray-700'
         : disabled
@@ -954,8 +954,8 @@ const FeatureCard = ({ icon, title, active, onClick, disabled = false }: Feature
         : 'bg-white text-blue-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
     }`}
   >
-    <div className="text-2xl">{icon}</div>
-    <span className="text-xs font-medium leading-tight">{title}</span>
+    <div className="text-xl md:text-2xl">{icon}</div>
+    <span className="text-[10px] md:text-xs font-medium leading-tight">{title}</span>
   </button>
 )
 

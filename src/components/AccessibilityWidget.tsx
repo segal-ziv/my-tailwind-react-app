@@ -106,9 +106,16 @@ const AccessibilityWidget = () => {
   const [activeSection, setActiveSection] = useState<string>('intelligence')
   const [preferences, setPreferences] = useState<AccessibilityPreferences>(defaultPreferences)
   const [showInfo, setShowInfo] = useState(false)
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'info' } | null>(null)
 
   const readingGuideRef = useRef<HTMLDivElement | null>(null)
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null)
+
+  // Show toast notification
+  const showToast = useCallback((message: string, type: 'success' | 'info' = 'info') => {
+    setToast({ message, type })
+    setTimeout(() => setToast(null), 3000)
+  }, [])
 
   // Text-to-Speech function
   const speakText = useCallback((text: string) => {
@@ -306,10 +313,26 @@ const AccessibilityWidget = () => {
   }
 
   const togglePreference = (key: keyof AccessibilityPreferences) => {
+    const newValue = !preferences[key as keyof AccessibilityPreferences]
     setPreferences(prev => ({
       ...prev,
-      [key]: !prev[key as keyof AccessibilityPreferences]
+      [key]: newValue
     } as AccessibilityPreferences))
+
+    // Show toast notification for key features
+    const featureNames: Record<string, string> = {
+      textToSpeech: 'הקראת טקסט - לחץ על טקסט בעמוד לקריאה',
+      highlightLinks: 'הדגשת קישורים',
+      highlightHeadings: 'הדגשת כותרות',
+      readingGuide: 'מדריך קריאה - עוקב אחר העכבר',
+      brightContrast: 'ניגודיות בהירה',
+      darkContrast: 'ניגודיות כהה',
+      monochrome: 'מונוכרום',
+    }
+
+    if (newValue && featureNames[key]) {
+      showToast(`✓ ${featureNames[key]} הופעל`, 'success')
+    }
   }
 
   const increaseFontSize = () => {
@@ -347,8 +370,35 @@ const AccessibilityWidget = () => {
     }))
   }
 
+  // Count active features
+  const activeFeatures = [
+    preferences.textToSpeech && 'הקראת טקסט',
+    preferences.brightContrast && 'ניגודיות בהירה',
+    preferences.darkContrast && 'ניגודיות כהה',
+    preferences.invertedColors && 'היפוך צבעים',
+    preferences.monochrome && 'מונוכרום',
+    preferences.highlightLinks && 'הדגשת קישורים',
+    preferences.highlightHeadings && 'הדגשת כותרות',
+    preferences.readingGuide && 'מדריך קריאה',
+    preferences.enlargeDisplay && 'הגדלת תצוגה',
+    preferences.enlargeContent && 'הגדלת תכנים',
+    preferences.readingView && 'תצוגת קריאה',
+    preferences.fontSize > 0 && `הגדלת גופן +${preferences.fontSize}`,
+  ].filter(Boolean)
+
   return (
     <>
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[150] animate-fade-in">
+          <div className={`px-4 md:px-6 py-3 rounded-lg shadow-2xl ${
+            toast.type === 'success' ? 'bg-green-600' : 'bg-blue-600'
+          } text-white font-medium text-sm md:text-base`}>
+            {toast.message}
+          </div>
+        </div>
+      )}
+
       {/* Accessibility Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -356,6 +406,11 @@ const AccessibilityWidget = () => {
         aria-label="פתח תפריט נגישות"
         title="נגישות"
       >
+        {activeFeatures.length > 0 && (
+          <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
+            {activeFeatures.length}
+          </span>
+        )}
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="md:w-7 md:h-7">
           <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z"/>
         </svg>
@@ -438,6 +493,30 @@ const AccessibilityWidget = () => {
             </div>
           )}
 
+          {/* Active Features Indicator */}
+          {activeFeatures.length > 0 && (
+            <div className="bg-green-50 border-b border-green-200 px-4 md:px-6 py-2 md:py-3">
+              <div className="flex items-start gap-2">
+                <span className="text-green-600 text-base md:text-lg">✓</span>
+                <div className="flex-1">
+                  <h4 className="font-bold text-green-900 text-xs md:text-sm mb-1">
+                    פעילים כעת ({activeFeatures.length})
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {activeFeatures.map((feature, index) => (
+                      <span
+                        key={index}
+                        className="bg-green-200 text-green-900 text-[10px] md:text-xs px-2 py-0.5 rounded-full font-medium"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Accessibility Statement Button */}
           <div className="px-4 md:px-6 py-2 md:py-3 border-b border-gray-200">
             <Link
@@ -451,6 +530,42 @@ const AccessibilityWidget = () => {
 
           {/* Scrollable Content */}
           <div className="overflow-y-auto flex-1 px-4 md:px-6 py-3 md:py-4 space-y-3 md:space-y-4">
+            {/* How to Use Section */}
+            <CollapsibleSection
+              title="❓ איך להשתמש בכלי הנגישות"
+              isOpen={activeSection === 'howto'}
+              onToggle={() => toggleSection('howto')}
+            >
+              <div className="space-y-3 text-sm md:text-base">
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <h4 className="font-bold text-blue-900 mb-2">🔊 הקראת טקסט</h4>
+                  <p className="text-blue-800 text-xs md:text-sm">
+                    הפעל את תכונת "הקראת טקסט" ולחץ על כל כותרת או פסקה בעמוד כדי לשמוע אותה בקול רם. השתמש בכפתור "עצור קריאה" להפסקה.
+                  </p>
+                </div>
+
+                <div className="bg-green-50 p-3 rounded-lg">
+                  <h4 className="font-bold text-green-900 mb-2">👁️ שיפור נראות</h4>
+                  <p className="text-green-800 text-xs md:text-sm">
+                    בחר מצב ניגודיות (בהירה/כהה), הגדל את הגופן, או צבע את הקישורים. כל שינוי מופעל מיד ונשמר אוטומטית.
+                  </p>
+                </div>
+
+                <div className="bg-purple-50 p-3 rounded-lg">
+                  <h4 className="font-bold text-purple-900 mb-2">🎯 תכונות מתקדמות</h4>
+                  <p className="text-purple-800 text-xs md:text-sm">
+                    רחף עם העכבר מעל כל כפתור תכונה כדי לראות הסבר מפורט. תכונות עם תג "בקרוב" יהיו זמינות בעדכון הבא.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                  <p className="text-gray-700 text-xs md:text-sm">
+                    <strong>💡 טיפ:</strong> כל ההגדרות נשמרות אוטומטית ויישארו גם לאחר סגירת הדפדפן. השתמש ב"ביטול נגישות" למטה כדי לאפס הכל.
+                  </p>
+                </div>
+              </div>
+            </CollapsibleSection>
+
             {/* Intelligence Assistance Section */}
             <CollapsibleSection
               title="סיוע בינה מלאכותית"
@@ -487,50 +602,84 @@ const AccessibilityWidget = () => {
                   <FeatureCard
                     icon={<GridIcon />}
                     title="ניווט אוזרים"
+                    description="הצגת רשת עזר על המסך לניווט מדויק יותר"
                     active={preferences.gridNavigation}
                     onClick={() => togglePreference('gridNavigation')}
                   />
                   <FeatureCard
                     icon={<KeyboardIcon />}
                     title="ניווט מקלדת"
+                    description="שיפור הניווט באתר באמצעות מקלדת בלבד (Tab, Enter, חצים)"
                     active={preferences.keyboardNavigation}
                     onClick={() => togglePreference('keyboardNavigation')}
                   />
                   <FeatureCard
                     icon={<EarIcon />}
                     title="התאמה לקורא-מסך"
+                    description="אופטימיזציה עבור תוכנות קריאת מסך כמו NVDA ו-JAWS"
                     active={preferences.screenReaderMode}
                     onClick={() => togglePreference('screenReaderMode')}
                   />
                   <FeatureCard
                     icon={<HandIcon />}
-                    title="פקודת קוליות"
+                    title="פקודות קוליות"
+                    description="שליטה באתר באמצעות פקודות קוליות"
                     active={preferences.voiceCommands}
                     onClick={() => togglePreference('voiceCommands')}
+                    comingSoon={true}
                   />
                   <FeatureCard
                     icon={<SpeakerIcon />}
                     title="הקראת טקסט"
+                    description="לחץ על כל טקסט בעמוד כדי לשמוע אותו בקול רם"
                     active={preferences.textToSpeech}
                     onClick={() => togglePreference('textToSpeech')}
                   />
                   <FeatureCard
                     icon={<TextSpacingIcon />}
-                    title="התאמת האתר לניווט באמצעות מקשים נמרים"
+                    title="מקשי קיצור"
+                    description="ניווט מהיר באתר באמצעות מקשי קיצור"
                     disabled={true}
                     active={false}
                     onClick={() => {}}
+                    comingSoon={true}
                   />
                 </div>
 
-                {/* TTS Test Button */}
+                {/* TTS Instructions & Controls */}
                 {preferences.textToSpeech && preferences.audioEnabled && (
-                  <button
-                    onClick={() => speakText('שלום, זהו בדיקת קריאה בקול')}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition-colors"
-                  >
-                    בדיקת קריאה בקול
-                  </button>
+                  <div className="space-y-2 md:space-y-3">
+                    {/* Instructional Banner */}
+                    <div className="bg-blue-50 border-2 border-blue-300 rounded-lg md:rounded-xl p-3 md:p-4">
+                      <div className="flex items-start gap-2 md:gap-3">
+                        <span className="text-2xl md:text-3xl">🔊</span>
+                        <div className="flex-1">
+                          <h5 className="font-bold text-blue-900 text-sm md:text-base mb-1">הקראת טקסט פעילה!</h5>
+                          <p className="text-xs md:text-sm text-blue-800 leading-relaxed">
+                            <strong>איך להשתמש:</strong> לחץ על כל כותרת, פסקה או טקסט בעמוד כדי לשמוע אותו בקול רם.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => speakText('שלום, זהו בדיקת קריאה בקול. המערכת פועלת כראוי.')}
+                        className="bg-green-600 hover:bg-green-700 text-white py-2 px-3 rounded-lg text-xs md:text-sm font-medium transition-colors flex items-center justify-center gap-1.5"
+                      >
+                        <span>▶</span>
+                        <span>בדיקה</span>
+                      </button>
+                      <button
+                        onClick={() => speechSynthesis.cancel()}
+                        className="bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg text-xs md:text-sm font-medium transition-colors flex items-center justify-center gap-1.5"
+                      >
+                        <span>⏹</span>
+                        <span>עצור קריאה</span>
+                      </button>
+                    </div>
+                  </div>
                 )}
               </div>
             </CollapsibleSection>
@@ -547,30 +696,35 @@ const AccessibilityWidget = () => {
                   <FeatureCard
                     icon={<SunIcon />}
                     title="נגישודיות בהירה"
+                    description="הגברת בהירות וניגודיות לקריאה טובה יותר"
                     active={preferences.brightContrast}
                     onClick={() => setContrastMode(preferences.brightContrast ? 'none' : 'bright')}
                   />
                   <FeatureCard
                     icon={<MoonIcon />}
                     title="נגישודיות כהה"
+                    description="מצב כהה עם רקע שחור וטקסט לבן - נוח לעיניים"
                     active={preferences.darkContrast}
                     onClick={() => setContrastMode(preferences.darkContrast ? 'none' : 'dark')}
                   />
                   <FeatureCard
                     icon={<MonochromeIcon />}
                     title="מונוכרום"
+                    description="הצגת האתר בגווני אפור - עוזר לעיוורי צבעים"
                     active={preferences.monochrome}
                     onClick={() => togglePreference('monochrome')}
                   />
                   <FeatureCard
                     icon={<ContrastIcon />}
-                    title="מוד נגישודיות"
+                    title="היפוך צבעים"
+                    description="היפוך כל הצבעים באתר לניגודיות מקסימלית"
                     active={preferences.invertedColors}
                     onClick={() => setContrastMode(preferences.invertedColors ? 'none' : 'inverted')}
                   />
                   <FeatureCard
                     icon={<DropHighIcon />}
                     title="רוויה גבוהה"
+                    description="הגברת עוצמת הצבעים להבחנה טובה יותר"
                     active={preferences.highSaturation}
                     onClick={() => {
                       updatePreference('highSaturation', !preferences.highSaturation)
@@ -580,6 +734,7 @@ const AccessibilityWidget = () => {
                   <FeatureCard
                     icon={<DropLowIcon />}
                     title="רוויה נמוכה"
+                    description="הפחתת עוצמת הצבעים לחוויה רגועה יותר"
                     active={preferences.lowSaturation}
                     onClick={() => {
                       updatePreference('lowSaturation', !preferences.lowSaturation)
@@ -779,90 +934,108 @@ const AccessibilityWidget = () => {
                   <FeatureCard
                     icon={<SearchIcon />}
                     title="הגדלת תצוגה"
+                    description="זום פנימי של כל האתר ב-25% להקלת הקריאה"
                     active={preferences.enlargeDisplay}
                     onClick={() => togglePreference('enlargeDisplay')}
                   />
                   <FeatureCard
                     icon={<SubtitlesIcon />}
-                    title="תוסף לכותבים (ביטא)"
+                    title="תוסף לכותבים"
+                    description="כלים מתקדמים לסיוע בכתיבה וניסוח"
                     active={preferences.subtitles}
                     onClick={() => togglePreference('subtitles')}
+                    comingSoon={true}
                   />
                   <FeatureCard
                     icon={<StopFlashIcon />}
                     title="חסימת הבהובים"
+                    description="עצירת אנימציות ותנועות - מומלץ לרגישים לתנועה"
                     active={preferences.blockFlashing}
                     onClick={() => togglePreference('blockFlashing')}
                   />
                   <FeatureCard
                     icon={<LinkIcon />}
                     title="הדגשת קישורים"
+                    description="צביעת כל הקישורים באתר בצהוב בולט עם מסגרת"
                     active={preferences.highlightLinks}
                     onClick={() => togglePreference('highlightLinks')}
                   />
                   <FeatureCard
                     icon={<ImageIcon />}
                     title="תיאור לתמונות"
+                    description="הצגת טקסט אלטרנטיבי (alt) מתחת לכל תמונה"
                     active={preferences.imageDescriptions}
                     onClick={() => togglePreference('imageDescriptions')}
                   />
                   <FeatureCard
                     icon={<ReadableIcon />}
                     title="גופן קריא"
+                    description="שימוש בגופן Arial פשוט וברור לקריאה קלה"
                     active={preferences.readableFont}
                     onClick={() => togglePreference('readableFont')}
                   />
                   <FeatureCard
                     icon={<MagnifierTextIcon />}
                     title="הגדלת תכנים"
+                    description="הגדלת הטקסט והתכנים ב-20% ושורות גבוהות יותר"
                     active={preferences.enlargeContent}
                     onClick={() => togglePreference('enlargeContent')}
                   />
                   <FeatureCard
                     icon={<ReadingGuideIcon />}
-                    title="תצוגה קריאה"
+                    title="תצוגת קריאה"
+                    description="הסתרת תפריטים ופסי צד - התמקדות בתוכן בלבד"
                     active={preferences.readingView}
                     onClick={() => togglePreference('readingView')}
                   />
                   <FeatureCard
                     icon={<HighlightTitlesIcon />}
                     title="הדגשת כותרות"
+                    description="סימון כל הכותרות ברקע צהוב עם פס כתום"
                     active={preferences.highlightHeadings}
                     onClick={() => togglePreference('highlightHeadings')}
                   />
                   <FeatureCard
                     icon={<FocusIcon />}
                     title="מיקוד קריאה"
+                    description="העמעם פסקאות - הבהרה רק בעת ריחוף עליהן"
                     active={preferences.focusReading}
                     onClick={() => togglePreference('focusReading')}
                   />
                   <FeatureCard
                     icon={<MuteIcon />}
                     title="השתק מדיה"
+                    description="השתקת כל קטעי הווידאו והאודיו באתר"
                     active={preferences.muteMedia}
                     onClick={() => togglePreference('muteMedia')}
                   />
                   <FeatureCard
                     icon={<MapIcon />}
                     title="מבנה העמוד"
+                    description="הצגת מספור ואייקונים ליד כותרות למבנה ברור"
                     active={preferences.pageStructure}
                     onClick={() => togglePreference('pageStructure')}
                   />
                   <FeatureCard
                     icon={<KeyboardVirtualIcon />}
                     title="מקלדת וירטואלית"
+                    description="מקלדת על המסך לקלדנים עם קשיי תנועה"
                     active={preferences.virtualKeyboard}
                     onClick={() => togglePreference('virtualKeyboard')}
+                    comingSoon={true}
                   />
                   <FeatureCard
                     icon={<DictionaryIcon />}
                     title="מילון"
+                    description="לחיצה כפולה על מילה להצגת הגדרה ומשמעות"
                     active={preferences.dictionary}
                     onClick={() => togglePreference('dictionary')}
+                    comingSoon={true}
                   />
                   <FeatureCard
                     icon={<GuideIcon />}
                     title="מדריך קריאה"
+                    description="פס צהוב שעוקב אחר העכבר - עוזר למקד את המבט"
                     active={preferences.readingGuide}
                     onClick={() => togglePreference('readingGuide')}
                   />
@@ -937,27 +1110,54 @@ const CollapsibleSection = ({ title, isOpen, onToggle, children }: CollapsibleSe
 interface FeatureCardProps {
   icon: ReactNode
   title: string
+  description?: string
   active: boolean
   onClick: () => void
   disabled?: boolean
+  comingSoon?: boolean
 }
 
-const FeatureCard = ({ icon, title, active, onClick, disabled = false }: FeatureCardProps) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    className={`p-3 md:p-4 rounded-lg md:rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 md:gap-2 text-center min-h-[80px] md:min-h-[100px] transition-all ${
-      active
-        ? 'bg-gray-700 text-white border-gray-700'
-        : disabled
-        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
-        : 'bg-white text-blue-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
-    }`}
-  >
-    <div className="text-xl md:text-2xl">{icon}</div>
-    <span className="text-[10px] md:text-xs font-medium leading-tight">{title}</span>
-  </button>
-)
+const FeatureCard = ({ icon, title, description, active, onClick, disabled = false, comingSoon = false }: FeatureCardProps) => {
+  const [showTooltip, setShowTooltip] = useState(false)
+
+  return (
+    <div className="relative">
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        onMouseEnter={() => description && setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        className={`w-full p-3 md:p-4 rounded-lg md:rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 md:gap-2 text-center min-h-[80px] md:min-h-[100px] transition-all ${
+          active
+            ? 'bg-gray-700 text-white border-gray-700'
+            : disabled
+            ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+            : 'bg-white text-blue-700 border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+        }`}
+        title={description || title}
+      >
+        <div className="text-xl md:text-2xl">{icon}</div>
+        <span className="text-[10px] md:text-xs font-medium leading-tight">{title}</span>
+        {comingSoon && (
+          <span className="absolute top-1 left-1 bg-orange-500 text-white text-[8px] md:text-[9px] px-1.5 py-0.5 rounded-full font-bold">
+            בקרוב
+          </span>
+        )}
+        {active && (
+          <span className="absolute top-1 left-1 text-green-400 text-lg md:text-xl">✓</span>
+        )}
+      </button>
+
+      {/* Tooltip for desktop */}
+      {showTooltip && description && (
+        <div className="hidden md:block absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50 w-48 bg-gray-900 text-white text-xs p-2 rounded-lg shadow-lg">
+          <div className="text-center">{description}</div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 // Icons
 const GridIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>

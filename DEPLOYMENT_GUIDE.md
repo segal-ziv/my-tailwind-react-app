@@ -94,11 +94,17 @@ git commit -m "Migrate from Formspree to Vercel Functions + Resend with database
 git push origin master
 ```
 
-### 3.2 Vercel Will Auto-Deploy
+### 3.2 Trigger the Production Deployment
 
-- Vercel automatically deploys when you push to your main branch
-- Monitor the deployment in your Vercel Dashboard
-- Deployment typically takes 1-2 minutes
+- Vercel automatically creates a deployment for every push to `master`
+- To publish immediately after a successful preview, run:
+
+```bash
+# Requires Vercel CLI to be linked to this project
+vercel deploy --prebuilt --prod
+```
+
+- Track the deployment progress in the Vercel dashboard
 
 ### 3.3 Verify Deployment
 
@@ -147,6 +153,17 @@ ORDER BY submitted_at DESC;
 -- View full details of a submission
 SELECT * FROM contact_submissions WHERE id = 1;
 ```
+
+### Accessibility Regression Check (new)
+
+After each production deploy, confirm the following quick checks so שהשינויים האחרונים בנושא נגישות אכן חיים:
+
+- `Tab` פותח את כפתור הנגישות, ו־Shift+Tab מחזיר אליו לאחר סגירת הפאנל  
+- כפתורי הטוגל בלוח הנגישות ניתנים להפעלה באמצעות מקשי Enter/Space  
+- מודאל העוגיות אוסר יציאה עם המקלדת ומגיב ל־Escape  
+- כרטיסים "לחיצים" מגיבים ללחיצה על Enter/Space מהפוקוס  
+- בסעיף המומחיות, משתמש שמפעיל העדפת reduced motion מקבל וידאו ללא autoplay וללא loop  
+- מצב "מיקוד קריאה" מדגיש פסקאות/כותרות ללא קפיצות לייאאוט
 
 ---
 

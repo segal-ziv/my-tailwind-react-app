@@ -25,25 +25,116 @@ const CookieConsent = ({ onAccept, onReject }: CookieConsentProps) => {
   const [showDetails, setShowDetails] = useState(false)
   const firstButtonRef = useRef<HTMLButtonElement>(null)
   const modalRef = useRef<HTMLDivElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
 
-  // Focus management
-  useEffect(() => {
-    if (firstButtonRef.current) {
-      firstButtonRef.current.focus()
-    }
-  }, [])
+  const focusableSelectors = [
+    'a[href]',
+    'button:not([disabled])',
+    'textarea:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+  ]
 
-  // Trap focus within modal
+  const getFocusableElements = () => {
+    const modal = modalRef.current
+    if (!modal) return []
+
+    return Array.from(
+      modal.querySelectorAll<HTMLElement>(focusableSelectors.join(','))
+    ).filter(element => element.getAttribute('aria-hidden') !== 'true' && !element.hasAttribute('inert'))
+  }
+
   useEffect(() => {
+    const modal = modalRef.current
+    if (!modal) return
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null
+
+    const preferredFocusTarget =
+      firstButtonRef.current ?? getFocusableElements()[0] ?? modal
+
+    const previousTabIndex = modal.getAttribute('tabindex')
+    modal.setAttribute('tabindex', '-1')
+
+    preferredFocusTarget.focus()
+
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (!modal.contains(event.target as Node)) return
+
       if (event.key === 'Escape') {
+        event.preventDefault()
         onReject()
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const focusables = getFocusableElements()
+
+      if (focusables.length === 0) {
+        event.preventDefault()
+        modal.focus()
+        return
+      }
+
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      const current = document.activeElement as HTMLElement | null
+
+      if (event.shiftKey) {
+        if (current === first || !current) {
+          event.preventDefault()
+          last.focus()
+        }
+        return
+      }
+
+      if (current === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    const handleFocusIn = (event: FocusEvent) => {
+      if (!modal.contains(event.target as Node)) {
+        const focusables = getFocusableElements()
+        if (focusables.length > 0) {
+          focusables[0].focus()
+        } else {
+          modal.focus()
+        }
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('focusin', handleFocusIn)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('focusin', handleFocusIn)
+      if (previousTabIndex === null) {
+        modal.removeAttribute('tabindex')
+      } else {
+        modal.setAttribute('tabindex', previousTabIndex)
+      }
+      if (previousFocusRef.current && document.contains(previousFocusRef.current)) {
+        previousFocusRef.current.focus()
+      }
+    }
   }, [onReject])
+
+  useEffect(() => {
+    const modal = modalRef.current
+    if (!modal) return
+
+    if (showDetails) {
+      const focusables = getFocusableElements()
+      ;(focusables[0] ?? modal).focus()
+    } else if (firstButtonRef.current) {
+      firstButtonRef.current.focus()
+    }
+  }, [showDetails])
 
   const handlePreferenceChange = (key: keyof CookiePreferences) => {
     if (key === 'necessary') return // לא ניתן לשנות
@@ -72,7 +163,7 @@ const CookieConsent = ({ onAccept, onReject }: CookieConsentProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
-      <div className="fixed inset-0 bg-black/50" />
+      <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
       <div 
         ref={modalRef}
         className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl"

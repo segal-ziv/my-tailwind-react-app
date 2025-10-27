@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useId, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 interface AccessibilitySettings {
@@ -17,10 +17,18 @@ const defaultSettings: AccessibilitySettings = {
   readingFocus: false,
 }
 
+const WIDGET_CLASSES = ['a11y-dark-mode', 'a11y-highlight-links', 'a11y-reading-focus']
+
 const AccessibilityWidget = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [settings, setSettings] = useState<AccessibilitySettings>(defaultSettings)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const toggleButtonId = useId()
+  const panelId = `${toggleButtonId}-panel`
+  const headingId = `${toggleButtonId}-heading`
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const previousFocusRef = useRef<HTMLElement | null>(null)
 
   // Load settings from localStorage
   useEffect(() => {
@@ -170,13 +178,106 @@ const AccessibilityWidget = () => {
   const resetAll = () => {
     if (window.confirm('האם אתה בטוח שברצונך לאפס את כל הגדרות הנגישות?')) {
       setSettings(defaultSettings)
-      document.documentElement.className = ''
-      document.documentElement.style.fontSize = ''
+      const root = document.documentElement
+      WIDGET_CLASSES.forEach(className => root.classList.remove(className))
+      root.style.fontSize = ''
       localStorage.removeItem('accessibility-settings-v3')
       speechSynthesis.cancel()
       setIsSpeaking(false)
     }
   }
+
+  useEffect(() => {
+    if (!isOpen) {
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus()
+      }
+      return
+    }
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const focusableSelectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ]
+
+    const getFocusableElements = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(focusableSelectors.join(','))
+      ).filter(element => element.getAttribute('aria-hidden') !== 'true' && !element.hasAttribute('inert'))
+
+    const focusableElements = getFocusableElements()
+    const initialFocusTarget =
+      dialog.querySelector<HTMLElement>('[data-a11y-panel-heading]') ??
+      focusableElements[0] ??
+      dialog
+
+    const previousTabIndex = initialFocusTarget.getAttribute('tabindex')
+    initialFocusTarget.setAttribute('tabindex', '-1')
+    initialFocusTarget.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!dialog.contains(event.target as Node)) return
+
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setIsOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const focusables = getFocusableElements()
+
+      if (focusables.length === 0) {
+        event.preventDefault()
+        const previousDialogTabIndex = dialog.getAttribute('tabindex')
+        dialog.setAttribute('tabindex', '-1')
+        dialog.focus()
+        if (previousDialogTabIndex === null) {
+          dialog.removeAttribute('tabindex')
+        } else {
+          dialog.setAttribute('tabindex', previousDialogTabIndex)
+        }
+        return
+      }
+
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      const current = document.activeElement as HTMLElement | null
+
+      if (event.shiftKey) {
+        if (current === first || !current) {
+          event.preventDefault()
+          last.focus()
+        }
+        return
+      }
+
+      if (current === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      if (previousTabIndex === null) {
+        initialFocusTarget.removeAttribute('tabindex')
+      } else {
+        initialFocusTarget.setAttribute('tabindex', previousTabIndex)
+      }
+    }
+  }, [isOpen])
 
   const activeCount = [
     settings.fontSize !== 100,
@@ -191,12 +292,20 @@ const AccessibilityWidget = () => {
       {/* Accessibility Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        ref={toggleButtonRef}
         className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-[100] bg-blue-600 hover:bg-blue-700 text-white p-3 md:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
-        aria-label="פתח תפריט נגישות"
+        aria-label={`פתח תפריט נגישות${activeCount > 0 ? `, ${activeCount} התאמות פעילות` : ''}`}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        id={toggleButtonId}
         title="נגישות"
       >
         {activeCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
+          <span
+            className="absolute -top-1 -right-1 bg-green-500 text-white text-xs font-bold rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center"
+            aria-hidden="true"
+          >
             {activeCount}
           </span>
         )}
@@ -217,10 +326,14 @@ const AccessibilityWidget = () => {
       {/* Accessibility Panel */}
       {isOpen && (
         <div
+          ref={dialogRef}
           className="fixed bottom-0 left-0 right-0 md:bottom-24 md:left-6 md:right-auto z-[100] bg-white rounded-t-3xl md:rounded-3xl shadow-2xl w-full sm:w-[420px] md:w-[480px] max-h-[85vh] md:max-h-[600px] overflow-hidden flex flex-col"
           dir="rtl"
           role="dialog"
-          aria-label="כלים לנגישות"
+          aria-modal="true"
+          aria-labelledby={headingId}
+          aria-describedby={`${panelId}-description`}
+          id={panelId}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Mobile drag handle */}
@@ -232,7 +345,13 @@ const AccessibilityWidget = () => {
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-5 md:px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🔧</span>
-              <h2 className="text-white font-bold text-lg md:text-xl">כלים לנגישות</h2>
+              <h2
+                className="text-white font-bold text-lg md:text-xl"
+                id={headingId}
+                data-a11y-panel-heading
+              >
+                כלים לנגישות
+              </h2>
             </div>
             <button
               onClick={() => setIsOpen(false)}
@@ -246,7 +365,10 @@ const AccessibilityWidget = () => {
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto px-5 md:px-6 py-5 space-y-6">
+          <div
+            className="flex-1 overflow-y-auto px-5 md:px-6 py-5 space-y-6"
+            id={`${panelId}-description`}
+          >
 
             {/* 1. Font Size */}
             <div className="space-y-3">

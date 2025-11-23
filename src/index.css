@@ -18,25 +18,124 @@ html {
 /* 2. DARK MODE / HIGH CONTRAST */
 /* ==================== */
 
+/* Root background and text */
 .a11y-dark-mode {
-  background-color: #000 !important;
-  color: #fff !important;
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
 }
 
-.a11y-dark-mode * {
-  background-color: #000 !important;
-  color: #fff !important;
-  border-color: #fff !important;
+/* Main content areas - exclude accessibility widget */
+.a11y-dark-mode main,
+.a11y-dark-mode section:not([role="dialog"] *),
+.a11y-dark-mode footer,
+.a11y-dark-mode header:not([role="dialog"] *),
+.a11y-dark-mode nav:not([role="dialog"] *) {
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
 }
 
-.a11y-dark-mode a {
+/* Headings - maintain hierarchy */
+.a11y-dark-mode h1,
+.a11y-dark-mode h2,
+.a11y-dark-mode h3,
+.a11y-dark-mode h4,
+.a11y-dark-mode h5,
+.a11y-dark-mode h6 {
+  color: #ffffff !important;
+}
+
+/* Paragraphs and text */
+.a11y-dark-mode p,
+.a11y-dark-mode li,
+.a11y-dark-mode span:not([role="dialog"] *),
+.a11y-dark-mode div:not([role="dialog"] *) {
+  color: #e5e5e5 !important;
+}
+
+/* Links - high contrast blue */
+.a11y-dark-mode a:not([role="dialog"] a) {
   color: #60a5fa !important;
   text-decoration: underline !important;
 }
 
-.a11y-dark-mode img {
-  opacity: 0.8;
-  filter: brightness(0.8) contrast(1.2);
+.a11y-dark-mode a:not([role="dialog"] a):hover {
+  color: #93c5fd !important;
+}
+
+/* Buttons - maintain their semantic colors with good contrast */
+.a11y-dark-mode button:not([role="dialog"] button):not([role="switch"]) {
+  filter: brightness(1.1) contrast(1.2);
+}
+
+/* Cards and panels */
+.a11y-dark-mode [class*="card"],
+.a11y-dark-mode [class*="panel"],
+.a11y-dark-mode [class*="bg-white"],
+.a11y-dark-mode [class*="bg-gray"],
+.a11y-dark-mode [class*="bg-neutral"],
+.a11y-dark-mode [class*="bg-accent"] {
+  background-color: #1a1a1a !important;
+  border-color: #404040 !important;
+}
+
+/* Input fields */
+.a11y-dark-mode input:not([role="dialog"] input),
+.a11y-dark-mode textarea:not([role="dialog"] textarea),
+.a11y-dark-mode select:not([role="dialog"] select) {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #404040 !important;
+}
+
+.a11y-dark-mode input::placeholder,
+.a11y-dark-mode textarea::placeholder {
+  color: #808080 !important;
+}
+
+/* Images - reduce brightness for better contrast */
+.a11y-dark-mode img:not([role="dialog"] img) {
+  opacity: 0.85;
+  filter: brightness(0.85) contrast(1.15);
+}
+
+/* Header/Navigation - sticky top bar */
+.a11y-dark-mode nav[class*="sticky"],
+.a11y-dark-mode nav[class*="fixed"],
+.a11y-dark-mode header[class*="sticky"],
+.a11y-dark-mode header[class*="fixed"] {
+  background: linear-gradient(to bottom, #1a1a1a, #0a0a0a) !important;
+  border-color: #404040 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Header text and navigation links */
+.a11y-dark-mode nav a,
+.a11y-dark-mode nav button:not([aria-label*="נגישות"]) {
+  color: #e5e5e5 !important;
+}
+
+.a11y-dark-mode nav a:hover,
+.a11y-dark-mode nav button:hover {
+  color: #ffffff !important;
+}
+
+/* Keep header action buttons (phone, whatsapp, etc) with their brand colors */
+.a11y-dark-mode nav a[href^="tel"],
+.a11y-dark-mode nav a[href^="https://wa.me"],
+.a11y-dark-mode nav a[href*="instagram"] {
+  filter: brightness(1.1) contrast(1.2) !important;
+}
+
+/* Preserve accessibility widget appearance */
+.a11y-dark-mode [role="dialog"],
+.a11y-dark-mode [role="dialog"] *,
+.a11y-dark-mode [aria-label*="נגישות"],
+.a11y-dark-mode [aria-label*="נגישות"] * {
+  background-color: revert !important;
+  color: revert !important;
+  border-color: revert !important;
+  filter: none !important;
+  opacity: 1 !important;
 }
 
 /* ==================== */

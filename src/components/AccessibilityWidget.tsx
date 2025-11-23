@@ -346,7 +346,7 @@ const AccessibilityWidget = () => {
             <div className="flex items-center gap-3">
               <span className="text-2xl">🔧</span>
               <h2
-                className="text-white font-bold text-lg md:text-xl"
+                className="text-white font-bold text-lg md:text-xl leading-tight"
                 id={headingId}
                 data-a11y-panel-heading
               >
@@ -374,7 +374,7 @@ const AccessibilityWidget = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">📏</span>
-                <h3 className="font-bold text-gray-900 text-base">גודל גופן</h3>
+                <h3 className="font-bold text-gray-900 text-base leading-tight">גודל גופן</h3>
               </div>
               <div className="flex items-center justify-center gap-4 bg-gray-50 p-4 rounded-xl">
                 <button
@@ -387,7 +387,7 @@ const AccessibilityWidget = () => {
                 </button>
                 <div className="text-center min-w-[80px]">
                   <div className="text-2xl font-bold text-gray-900">{settings.fontSize}%</div>
-                  <div className="text-xs text-gray-600">רמה נוכחית</div>
+                  <div className="text-xs text-gray-600 leading-relaxed">רמה נוכחית</div>
                 </div>
                 <button
                   onClick={increaseFontSize}
@@ -407,8 +407,8 @@ const AccessibilityWidget = () => {
               <div className="flex items-center gap-3 flex-1">
                 <span className="text-2xl">🌙</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-base">ניגודיות כהה</h3>
-                  <p className="text-sm text-gray-600">רקע שחור וטקסט לבן</p>
+                  <h3 className="font-bold text-gray-900 text-base leading-tight">ניגודיות כהה</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">רקע שחור וטקסט לבן</p>
                 </div>
               </div>
               <button
@@ -436,8 +436,8 @@ const AccessibilityWidget = () => {
                 <div className="flex items-center gap-3 flex-1">
                   <span className="text-2xl">🔊</span>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">הקראת טקסט</h3>
-                    <p className="text-sm text-gray-600">לחץ על טקסט בעמוד לשמיעה</p>
+                    <h3 className="font-bold text-gray-900 text-base leading-tight">הקראת טקסט</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">לחץ על טקסט בעמוד לשמיעה</p>
                   </div>
                 </div>
                 <button
@@ -459,7 +459,7 @@ const AccessibilityWidget = () => {
 
               {settings.textToSpeech && (
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                  <p className="text-sm text-blue-900 mb-2">
+                  <p className="text-sm text-blue-900 mb-2 leading-relaxed">
                     💡 <strong>איך להשתמש:</strong> לחץ על כל טקסט בעמוד כדי לשמוע אותו בקול רם
                   </p>
                   <div className="flex gap-2">
@@ -489,8 +489,8 @@ const AccessibilityWidget = () => {
               <div className="flex items-center gap-3 flex-1">
                 <span className="text-2xl">🔗</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-base">הדגשת קישורים</h3>
-                  <p className="text-sm text-gray-600">קישורים בצהוב בולט עם מסגרת</p>
+                  <h3 className="font-bold text-gray-900 text-base leading-tight">הדגשת קישורים</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">קישורים בצהוב בולט עם מסגרת</p>
                 </div>
               </div>
               <button
@@ -517,8 +517,8 @@ const AccessibilityWidget = () => {
               <div className="flex items-center gap-3 flex-1">
                 <span className="text-2xl">🎯</span>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-base">מיקוד קריאה</h3>
-                  <p className="text-sm text-gray-600">העמעם את שאר הדף, הבהר בפוקוס</p>
+                  <h3 className="font-bold text-gray-900 text-base leading-tight">מיקוד קריאה</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">העמעם את שאר הדף, הבהר בפוקוס</p>
                 </div>
               </div>
               <button

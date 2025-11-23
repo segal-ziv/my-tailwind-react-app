@@ -138,10 +138,10 @@ const ContactSection = () => {
     <section id="contact" aria-labelledby="contact-heading" className="bg-accent-light py-8 sm:py-12 lg:py-16" dir="rtl">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 id="contact-heading" className="mb-4 text-2xl font-black leading-tight text-blue-900 sm:text-3xl sm:mb-6 lg:text-4xl lg:mb-8 xl:text-5xl">
+          <h2 id="contact-heading" className="mb-4 text-2xl font-bold leading-tight text-blue-900 sm:text-3xl sm:mb-6 lg:text-4xl lg:mb-8 xl:text-5xl">
             מתכננים פרויקט אינסטלציה?
           </h2>
-          <p className="text-base font-medium leading-7 text-blue-700 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9 xl:text-2xl">
+          <p className="text-base font-normal leading-relaxed text-blue-700 sm:text-lg sm:leading-relaxed lg:text-xl lg:leading-relaxed xl:text-2xl xl:leading-relaxed">
             השאירו פרטים לתיאום שיחה וייעוץ מקצועי.
           </p>
         </div>

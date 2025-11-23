@@ -44,11 +44,11 @@ const SiteFooter = () => (
         </Button>
       </div>
 
-      <div className="mb-4 text-sm text-blue-900 lg:text-base">
+      <div className="mb-4 text-sm text-blue-900 lg:text-base leading-relaxed">
         כל הזכויות שמורות ל־T.S PLUMBING © 2025
       </div>
 
-      <div className="mb-4 flex flex-wrap justify-center gap-4 text-sm">
+      <div className="mb-4 flex flex-wrap justify-center gap-4 text-sm leading-relaxed">
         <Link
           to="/privacy-policy"
           className="text-blue-700 hover:text-blue-900 underline transition-colors"
@@ -69,7 +69,7 @@ const SiteFooter = () => (
         </Link>
       </div>
 
-      <div className="text-sm text-blue-900 lg:text-base">
+      <div className="text-sm text-blue-900 lg:text-base leading-relaxed">
         האתר נבנה על ידי{' '}
         <a
           href="https://zivsegal.netlify.app/"

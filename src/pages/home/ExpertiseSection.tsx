@@ -14,14 +14,14 @@ const ExpertiseSection = () => {
             />
           </div>
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 id="expertise-heading" className="mb-6 text-2xl font-black leading-tight text-blue-900 sm:text-3xl sm:mb-8 lg:text-4xl lg:mb-10 xl:text-5xl">
+            <h2 id="expertise-heading" className="mb-6 text-2xl font-bold leading-tight text-blue-900 sm:text-3xl sm:mb-8 lg:text-4xl lg:mb-10 xl:text-5xl">
               מומחיות ואמינות
             </h2>
-            <p className="mb-8 text-base font-medium leading-7 text-blue-700 sm:text-lg sm:leading-8 lg:mb-10 lg:text-xl lg:leading-9 xl:text-2xl">
+            <p className="mb-8 text-base font-normal leading-relaxed text-blue-700 sm:text-lg sm:leading-relaxed lg:mb-10 lg:text-xl lg:leading-relaxed xl:text-2xl xl:leading-relaxed">
               עם ניסיון רב שנים בתחום האינסטלציה, אני מתמחה בפתרונות מתקדמים ויעילים לבעיות אינסטלציה. כל עבודה מבוצעת ברמה הגבוהה ביותר עם התחייבות למצוינות ושביעות רצון הלקוח.
             </p>
             <Card variant="glass" padding="lg" rounded="3xl">
-              <ul className="space-y-4 text-base font-medium text-blue-900 lg:text-lg">
+              <ul className="space-y-4 text-base font-normal leading-relaxed text-blue-900 lg:text-lg lg:leading-relaxed">
                 <li className="flex items-start">
                   <span className="ml-3 text-xl text-blue-700" aria-hidden="true" role="presentation">✓</span>
                   <span>ציוד מתקדם וטכנולוגיה חדישה</span>

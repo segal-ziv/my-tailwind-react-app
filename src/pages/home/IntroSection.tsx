@@ -26,7 +26,7 @@ const HeroIntro = () => {
             >
               אינסטלציה T.S
             </h1>
-            <p className="text-base font-medium leading-7 text-blue-700 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9 xl:text-2xl xl:leading-10">
+            <p className="text-base font-normal leading-relaxed text-blue-700 sm:text-lg sm:leading-relaxed lg:text-xl lg:leading-relaxed xl:text-2xl xl:leading-relaxed">
               שלום, שמי תומר שאול ואני מספק שירותי אינסטלציה. אני מקפיד להעניק שירות מקצועי, יעיל ואמין, עם דגש על יחס אישי, חיובי ונעים. נותן שירות לדירות, בניינים, בתים פרטיים, מוסדות וגופים.
             </p>
           </div>

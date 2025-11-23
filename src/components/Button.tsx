@@ -8,7 +8,7 @@ import type {
 } from 'react'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'whatsapp' | 'phone'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'whatsapp' | 'phone' | 'instagram'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   fullWidth?: boolean
   loading?: boolean
@@ -29,6 +29,7 @@ const variants = {
   ghost: 'text-neutral-700 hover:bg-neutral-50 hover:text-neutral-800',
   whatsapp: 'bg-green-500 text-white hover:bg-green-600 hover:shadow-xl hover:-translate-y-0.5 active:bg-green-700',
   phone: 'bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl hover:-translate-y-0.5 active:bg-blue-700',
+  instagram: 'bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 text-white hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 hover:shadow-xl hover:-translate-y-0.5',
 } as const
 
 const sizes = {

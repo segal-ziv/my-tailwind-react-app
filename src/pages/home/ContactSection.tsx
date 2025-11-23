@@ -95,8 +95,8 @@ const ContactSection = () => {
     setStatusMessage('שולח את הבקשה...')
 
     try {
-      // שליחה לשרת באמצעות API
-      const response = await fetch('/api/contact', {
+      // שליחה לשרת באמצעות Formspree
+      const response = await fetch('https://formspree.io/f/mjkpyejq', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,15 +109,14 @@ const ContactSection = () => {
         }),
       })
 
-      const data = await response.json()
-
-      if (response.ok && data.success) {
+      if (response.ok) {
         setStatus('success')
         setStatusMessage('הבקשה התקבלה בהצלחה! נחזור אליכם בהקדם האפשרי.')
         form.reset()
         setPrivacyConsent(false)
       } else {
         // Display server error message if available
+        const data = await response.json().catch(() => ({}))
         throw new Error(data.error || 'Form submission failed')
       }
     } catch (error) {
@@ -139,10 +138,10 @@ const ContactSection = () => {
     <section id="contact" aria-labelledby="contact-heading" className="bg-accent-light py-8 sm:py-12 lg:py-16" dir="rtl">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 id="contact-heading" className="mb-4 text-2xl font-black leading-tight text-neutral-700 sm:text-3xl sm:mb-6 lg:text-4xl lg:mb-8 xl:text-5xl">
+          <h2 id="contact-heading" className="mb-4 text-2xl font-black leading-tight text-blue-900 sm:text-3xl sm:mb-6 lg:text-4xl lg:mb-8 xl:text-5xl">
             מתכננים פרויקט אינסטלציה?
           </h2>
-          <p className="text-base font-medium leading-7 text-neutral-600 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9 xl:text-2xl">
+          <p className="text-base font-medium leading-7 text-blue-700 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9 xl:text-2xl">
             השאירו פרטים לתיאום שיחה וייעוץ מקצועי.
           </p>
         </div>
@@ -246,9 +245,9 @@ const ContactSection = () => {
             {showSpinner && <LoadingSpinner fullScreen label="שולח בקשה..." />}
 
             <div className="mt-8 border-t border-accent-border pt-8 text-center">
-              <p id="contact-form-description" className="text-lg font-medium text-neutral-600">
+              <p id="contact-form-description" className="text-lg font-medium text-blue-700">
                 או שלח ישירות למייל:{' '}
-                <a href={`mailto:${contactEmail}`} className="font-bold text-neutral-700 hover:underline">
+                <a href={`mailto:${contactEmail}`} className="font-bold text-blue-900 hover:underline">
                   {contactEmail}
                 </a>
               </p>

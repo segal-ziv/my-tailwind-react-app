@@ -11,7 +11,7 @@ const SiteFooter = () => (
           aria-label="חייגו עכשיו: 050-402-0170"
           size="md"
           variant="phone"
-          icon={<PhoneIcon className="h-4 w-4" />}
+          icon={<PhoneIcon className="h-3.5 w-3.5" />}
           className="w-full max-w-64 mx-auto sm:mx-0 sm:w-auto"
         >
           חייגו עכשיו
@@ -24,7 +24,7 @@ const SiteFooter = () => (
           aria-label="פתיחת שיחת WhatsApp עם 050-402-0170"
           size="md"
           variant="whatsapp"
-          icon={<WhatsAppIcon className="h-4 w-4" />}
+          icon={<WhatsAppIcon className="h-3.5 w-3.5" />}
           className="w-full max-w-64 mx-auto sm:mx-0 sm:w-auto"
         >
           WhatsApp
@@ -37,7 +37,7 @@ const SiteFooter = () => (
           aria-label="עקבו אחרינו באינסטגרם"
           size="md"
           variant="instagram"
-          icon={<InstagramIcon className="h-4 w-4" />}
+          icon={<InstagramIcon className="h-3.5 w-3.5" />}
           className="w-full max-w-64 mx-auto sm:mx-0 sm:w-auto"
         >
           Instagram
@@ -72,7 +72,7 @@ const SiteFooter = () => (
       <div className="text-sm text-blue-900 lg:text-base">
         האתר נבנה על ידי{' '}
         <a
-          href="https://www.znbtech.com/"
+          href="https://zivsegal.netlify.app/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-900 underline transition hover:text-blue-700"

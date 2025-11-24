@@ -52,39 +52,39 @@ const Header = () => {
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/Newlogo.svg"
-                className="h-14 w-auto"
+                className="h-24 w-auto"
               />
             </div>
 
             {/* Contact Buttons - Left */}
-            <div className="flex gap-2 z-10">
+            <div className="flex flex-col gap-1.5 z-10">
               <a
                 href="tel:0504020170"
                 aria-label="חייגו עכשיו: 050-402-0170"
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 text-white shadow-lg active:scale-95 transition-transform"
+                className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white shadow-md active:scale-95 transition-transform"
                 dir="rtl"
               >
-                <PhoneIcon className="h-4 w-4" />
+                <PhoneIcon className="h-3 w-3" />
               </a>
               <a
                 href="https://wa.me/972504020170"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="פתיחת שיחת WhatsApp"
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white shadow-lg active:scale-95 transition-transform"
+                className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white shadow-md active:scale-95 transition-transform"
                 dir="rtl"
               >
-                <WhatsAppIcon className="h-4 w-4" />
+                <WhatsAppIcon className="h-3 w-3" />
               </a>
               <a
                 href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="עקבו באינסטגרם"
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 text-white shadow-lg active:scale-95 transition-transform"
+                className="flex items-center justify-center w-7 h-7 rounded-full bg-pink-500 text-white shadow-md active:scale-95 transition-transform"
                 dir="rtl"
               >
-                <InstagramIcon className="h-4 w-4" />
+                <InstagramIcon className="h-3 w-3" />
               </a>
             </div>
           </div>

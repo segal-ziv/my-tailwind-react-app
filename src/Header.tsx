@@ -52,7 +52,7 @@ const Header = () => {
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/Untitled design (2).svg"
-                className="h-12 w-auto"
+                className="h-16 w-auto"
               />
             </div>
 
@@ -93,7 +93,7 @@ const Header = () => {
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/Untitled design (2).svg"
-                className="h-16 w-auto md:h-20"
+                className="h-20 w-auto md:h-24"
               />
             </div>
 

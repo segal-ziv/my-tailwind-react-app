@@ -35,60 +35,118 @@ const Header = () => {
   }
 
   return (
-    <Disclosure as="nav" className="sticky top-0 z-50 bg-gradient-to-b from-white via-white/98 to-white/95 shadow-lg backdrop-blur-md border-b border-neutral-200/50" dir="rtl">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Mobile layout: Clean single-line */}
-        <div className="sm:hidden">
-          <div className="relative flex items-center justify-between py-2.5">
-            {/* Hamburger Menu - Right */}
-            <DisclosureButton className="flex items-center justify-center rounded-xl p-2 text-neutral-700 hover:bg-neutral-100 active:scale-95 transition-all z-10">
-              <span className="sr-only">פתח תפריט ראשי</span>
-              <Bars3Icon aria-hidden="true" className="block h-5 w-5 group-data-open:hidden" />
-              <XMarkIcon aria-hidden="true" className="hidden h-5 w-5 group-data-open:block" />
-            </DisclosureButton>
+    <>
+      {/* Mobile Top Bar - Hamburger Menu & Contact Icons */}
+      <Disclosure as="div" className="sm:hidden sticky top-0 z-50 bg-gradient-to-b from-white to-white/95 border-b border-neutral-200/30">
+        {({ open }) => (
+          <>
+            <div className="mx-auto max-w-7xl px-4">
+              <div className="flex justify-between items-center py-2">
+                {/* Hamburger Menu - Right */}
+                <DisclosureButton className="flex items-center justify-center rounded-xl p-1.5 text-neutral-700 hover:bg-neutral-100 active:scale-95 transition-all">
+                  <span className="sr-only">פתח תפריט ראשי</span>
+                  <Bars3Icon aria-hidden="true" className={`h-5 w-5 ${open ? 'hidden' : 'block'}`} />
+                  <XMarkIcon aria-hidden="true" className={`h-5 w-5 ${open ? 'block' : 'hidden'}`} />
+                </DisclosureButton>
 
-            {/* Centered Logo */}
-            <div className="absolute left-1/2 -translate-x-1/2">
+                {/* Contact Icons - Left */}
+                <div className="flex gap-1.5">
+                  <a
+                    href="tel:0504020170"
+                    aria-label="חייגו עכשיו: 050-402-0170"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white shadow-md active:scale-95 transition-transform"
+                    dir="rtl"
+                  >
+                    <PhoneIcon className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href="https://wa.me/972504020170"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="פתיחת שיחת WhatsApp"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 text-white shadow-md active:scale-95 transition-transform"
+                    dir="rtl"
+                  >
+                    <WhatsAppIcon className="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="עקבו באינסטגרם"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-pink-500 text-white shadow-md active:scale-95 transition-transform"
+                    dir="rtl"
+                  >
+                    <InstagramIcon className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Menu Panel */}
+            <DisclosurePanel className="border-t border-neutral-200" dir="rtl">
+              <div className="px-4 py-3 space-y-3 bg-gradient-to-b from-neutral-50 to-white">
+                {/* Navigation Links */}
+                <div className="space-y-1">
+                  {navigation.map((item) => (
+                    <DisclosureButton
+                      key={item.name}
+                      as="button"
+                      onClick={() => handleNavigation(item.href)}
+                      onKeyDown={(e) => handleKeyDown(e, item.href)}
+                      className="block w-full text-right rounded-xl px-4 py-2.5 text-base font-medium text-neutral-700 hover:bg-white hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-300"
+                      aria-label={`ניווט לקטע ${item.name}`}
+                    >
+                      {item.name}
+                    </DisclosureButton>
+                  ))}
+                </div>
+
+                {/* Contact Buttons */}
+                <div className="pt-3 space-y-2 border-t border-neutral-200">
+                  <p className="text-xs font-semibold text-neutral-500 px-4">צרו קשר</p>
+                  <a
+                    href="https://wa.me/972504020170"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="פתיחת שיחת WhatsApp"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md active:scale-98 transition-transform"
+                    dir="rtl"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" />
+                    <span className="text-xs font-semibold">שלחו הודעה ב-WhatsApp</span>
+                  </a>
+                  <a
+                    href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="עקבו באינסטגרם"
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-md active:scale-98 transition-transform"
+                    dir="rtl"
+                  >
+                    <InstagramIcon className="h-4 w-4" />
+                    <span className="text-xs font-semibold">עקבו באינסטגרם</span>
+                  </a>
+                </div>
+              </div>
+            </DisclosurePanel>
+          </>
+        )}
+      </Disclosure>
+
+      <Disclosure as="nav" className="sticky top-0 z-50 bg-gradient-to-b from-white via-white/98 to-white/95 shadow-lg backdrop-blur-md border-b border-neutral-200/50 sm:top-0" dir="rtl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Mobile layout: Just logo */}
+          <div className="sm:hidden">
+            <div className="flex items-center justify-center py-3">
+              {/* Centered Logo */}
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/Newlogo.svg"
-                className="h-24 w-auto"
+                className="h-16 w-auto"
               />
             </div>
-
-            {/* Contact Buttons - Left */}
-            <div className="flex flex-col gap-1.5 z-10">
-              <a
-                href="tel:0504020170"
-                aria-label="חייגו עכשיו: 050-402-0170"
-                className="flex items-center justify-center w-7 h-7 rounded-full bg-blue-500 text-white shadow-md active:scale-95 transition-transform"
-                dir="rtl"
-              >
-                <PhoneIcon className="h-3 w-3" />
-              </a>
-              <a
-                href="https://wa.me/972504020170"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="פתיחת שיחת WhatsApp"
-                className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white shadow-md active:scale-95 transition-transform"
-                dir="rtl"
-              >
-                <WhatsAppIcon className="h-3 w-3" />
-              </a>
-              <a
-                href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="עקבו באינסטגרם"
-                className="flex items-center justify-center w-7 h-7 rounded-full bg-pink-500 text-white shadow-md active:scale-95 transition-transform"
-                dir="rtl"
-              >
-                <InstagramIcon className="h-3 w-3" />
-              </a>
-            </div>
           </div>
-        </div>
 
         {/* Desktop layout: Single-line elegant header */}
         <div className="hidden sm:block">
@@ -152,54 +210,8 @@ const Header = () => {
           </div>
         </div>
       </div>
-
-      <DisclosurePanel className="sm:hidden" dir="rtl">
-        <div className="px-4 py-3 space-y-3 bg-gradient-to-b from-neutral-50 to-white border-t border-neutral-200">
-          {/* Navigation Links */}
-          <div className="space-y-1">
-            {navigation.map((item) => (
-              <DisclosureButton
-                key={item.name}
-                as="button"
-                onClick={() => handleNavigation(item.href)}
-                onKeyDown={(e) => handleKeyDown(e, item.href)}
-                className="block w-full text-right rounded-xl px-4 py-2.5 text-base font-medium text-neutral-700 hover:bg-white hover:text-primary-600 transition-all focus:outline-none focus:ring-2 focus:ring-primary-300"
-                aria-label={`ניווט לקטע ${item.name}`}
-              >
-                {item.name}
-              </DisclosureButton>
-            ))}
-          </div>
-
-          {/* Contact Buttons */}
-          <div className="pt-3 space-y-2 border-t border-neutral-200">
-            <p className="text-xs font-semibold text-neutral-500 px-4">צרו קשר</p>
-            <a
-              href="https://wa.me/972504020170"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="פתיחת שיחת WhatsApp"
-              className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md active:scale-98 transition-transform"
-              dir="rtl"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              <span className="text-xs font-semibold">שלחו הודעה ב-WhatsApp</span>
-            </a>
-            <a
-              href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="עקבו באינסטגרם"
-              className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 text-white shadow-md active:scale-98 transition-transform"
-              dir="rtl"
-            >
-              <InstagramIcon className="h-4 w-4" />
-              <span className="text-xs font-semibold">עקבו באינסטגרם</span>
-            </a>
-          </div>
-        </div>
-      </DisclosurePanel>
     </Disclosure>
+  </>
   )
 }
 

@@ -39,7 +39,7 @@ const Header = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Mobile layout: Clean single-line */}
         <div className="sm:hidden">
-          <div className="relative flex items-center justify-between py-3">
+          <div className="relative flex items-center justify-between py-2.5">
             {/* Hamburger Menu - Right */}
             <DisclosureButton className="flex items-center justify-center rounded-xl p-2 text-neutral-700 hover:bg-neutral-100 active:scale-95 transition-all z-10">
               <span className="sr-only">פתח תפריט ראשי</span>
@@ -52,19 +52,41 @@ const Header = () => {
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/Newlogo.svg"
-                className="h-20 w-auto"
+                className="h-14 w-auto"
               />
             </div>
 
-            {/* Primary Contact Button - Left */}
-            <a
-              href="tel:0504020170"
-              aria-label="חייגו עכשיו: 050-402-0170"
-              className="flex items-center justify-center w-11 h-11 rounded-full bg-blue-500 text-white shadow-lg active:scale-95 transition-transform z-10"
-              dir="rtl"
-            >
-              <PhoneIcon className="h-5 w-5" />
-            </a>
+            {/* Contact Buttons - Left */}
+            <div className="flex gap-2 z-10">
+              <a
+                href="tel:0504020170"
+                aria-label="חייגו עכשיו: 050-402-0170"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 text-white shadow-lg active:scale-95 transition-transform"
+                dir="rtl"
+              >
+                <PhoneIcon className="h-4 w-4" />
+              </a>
+              <a
+                href="https://wa.me/972504020170"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="פתיחת שיחת WhatsApp"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white shadow-lg active:scale-95 transition-transform"
+                dir="rtl"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.instagram.com/poppipe.plumbing?igsh=MTR5b3ExamVodzVoaQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="עקבו באינסטגרם"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-500 text-white shadow-lg active:scale-95 transition-transform"
+                dir="rtl"
+              >
+                <InstagramIcon className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
 

@@ -51,7 +51,7 @@ const Header = () => {
             <div className="absolute left-1/2 -translate-x-1/2">
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
-                src="/Untitled design (2).svg"
+                src="/Newlogo.svg"
                 className="h-12 w-auto"
               />
             </div>
@@ -71,7 +71,7 @@ const Header = () => {
 
         {/* Desktop layout: Single-line elegant header */}
         <div className="hidden sm:block">
-          <div className="flex items-center justify-between py-4 gap-8">
+          <div className="relative flex items-center justify-between py-4 min-h-24">
             {/* Navigation Menu - Right Side */}
             <div className="flex gap-8" dir="rtl">
               {navigation.map((item) => (
@@ -79,7 +79,7 @@ const Header = () => {
                   key={item.name}
                   onClick={() => handleNavigation(item.href)}
                   onKeyDown={(e) => handleKeyDown(e, item.href)}
-                  className="relative text-sm font-medium text-neutral-700 hover:text-primary-600 transition-colors duration-200 group"
+                  className="relative text-sm font-medium text-neutral-700 hover:text-primary-600 transition-colors duration-200 group whitespace-nowrap"
                   aria-label={`ניווט לקטע ${item.name}`}
                 >
                   {item.name}
@@ -89,10 +89,10 @@ const Header = () => {
             </div>
 
             {/* Centered Logo */}
-            <div className="flex-shrink-0">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
-                src="/Untitled design (2).svg"
+                src="/Newlogo.svg"
                 className="h-16 w-auto md:h-20"
               />
             </div>

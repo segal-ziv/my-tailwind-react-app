@@ -36,8 +36,10 @@ const Header = () => {
 
   return (
     <>
+      {/* Mobile Header Container - Sticky wrapper for both top bar and logo */}
+      <div className="sm:hidden sticky top-0 z-50 bg-white shadow-md">
       {/* Mobile Top Bar - Hamburger Menu & Contact Icons */}
-      <Disclosure as="div" className="sm:hidden sticky top-0 z-50 bg-gradient-to-b from-white to-white/95 border-b border-neutral-200/30">
+      <Disclosure as="div" className="bg-gradient-to-b from-white to-white/95 border-b border-neutral-200/30">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4">
@@ -134,23 +136,22 @@ const Header = () => {
         )}
       </Disclosure>
 
-      <Disclosure as="nav" className="sticky top-0 z-50 bg-gradient-to-b from-white via-white/98 to-white/95 shadow-lg backdrop-blur-md border-b border-neutral-200/50 sm:top-0" dir="rtl">
+      {/* Mobile Logo Section - Inside sticky container */}
+      <div className="flex items-center justify-center py-3 bg-white">
+        <img
+          alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
+          src="/goodlogo.png"
+          className="h-24 w-auto"
+        />
+      </div>
+      </div>
+
+      {/* Desktop Header */}
+      <Disclosure as="nav" className="hidden sm:block sticky top-0 z-50 bg-gradient-to-b from-white via-white/98 to-white/95 shadow-lg backdrop-blur-md border-b border-neutral-200/50" dir="rtl">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Mobile layout: Just logo */}
-          <div className="sm:hidden">
-            <div className="flex items-center justify-center py-3">
-              {/* Centered Logo */}
-              <img
-                alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
-                src="/goodlogo.png"
-                className="h-20 w-auto"
-              />
-            </div>
-          </div>
 
         {/* Desktop layout: Single-line elegant header */}
-        <div className="hidden sm:block">
-          <div className="relative flex items-center justify-between py-4 min-h-36">
+          <div className="relative flex items-center justify-between py-4 min-h-40">
             {/* Navigation Menu - Right Side */}
             <div className="flex gap-8" dir="rtl">
               {navigation.map((item) => (
@@ -172,7 +173,7 @@ const Header = () => {
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
                 src="/goodlogo.png"
-                className="h-28 w-auto md:h-32"
+                className="h-32 w-auto md:h-38 lg:h-40"
               />
             </div>
 
@@ -209,7 +210,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
     </Disclosure>
   </>
   )

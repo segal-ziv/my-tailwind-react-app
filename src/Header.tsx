@@ -142,8 +142,8 @@ const Header = () => {
               {/* Centered Logo */}
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
-                src="/Newlogo.svg"
-                className="h-16 w-auto"
+                src="/tslogo.svg"
+                className="h-18 w-auto"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ const Header = () => {
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <img
                 alt="לוגו T.S אינסטלציה - שירותי אינסטלציה מקצועיים"
-                src="/Newlogo.svg"
+                src="/tslogo.svg"
                 className="h-28 w-auto md:h-32"
               />
             </div>

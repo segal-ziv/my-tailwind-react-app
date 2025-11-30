@@ -19,7 +19,19 @@ const Header = () => {
       // אם אנחנו בעמוד הבית, פשוט גלול לקטע
       const element = document.querySelector(href)
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+        // Get the actual header height dynamically
+        const mobileHeader = document.querySelector('.sm\\:hidden.sticky')
+        const desktopHeader = document.querySelector('nav.sticky')
+        const header = window.innerWidth >= 640 ? desktopHeader : mobileHeader
+        const headerHeight = header ? header.getBoundingClientRect().height : 160
+
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY
+        const offsetPosition = elementPosition - headerHeight - 16 // 16px extra padding
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
       }
     } else {
       // אם אנחנו בדף אחר, עבור לעמוד הבית עם הקטע

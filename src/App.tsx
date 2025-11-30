@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './Header'
 import LoadingSpinner from './components/LoadingSpinner'
 import CookieConsent from './components/CookieConsent'
-import AccessibilityWidget from './components/AccessibilityWidget'
 import { useCookieConsent } from './hooks/useCookieConsent'
 
 const HomePage = lazy(() => import('./pages/home/HomePage.lazy'))
@@ -57,8 +56,6 @@ function App() {
             onReject={rejectCookies}
           />
         )}
-
-        <AccessibilityWidget />
       </div>
     </Router>
   )
